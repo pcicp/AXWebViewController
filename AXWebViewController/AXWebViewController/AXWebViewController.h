@@ -119,6 +119,7 @@ API_AVAILABLE(ios(8.0))
     @protected
     WKWebView *_webView;
     NSURL *_URL;
+    NSString *_webViewClassName;
 }
 #else
 API_AVAILABLE(ios(7.0))
@@ -127,6 +128,7 @@ API_AVAILABLE(ios(7.0))
 @protected
     UIWebView *_webView;
     NSURL *_URL;
+    NSString *_webViewClassName;
 }
 #endif
 /// Delegate.
