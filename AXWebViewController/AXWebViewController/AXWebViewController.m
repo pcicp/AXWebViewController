@@ -575,6 +575,19 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 #pragma mark - Getters
+- (Class)webViewClass {
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+	if (_webViewClassName && [NSClassFromString(_webViewClassName) isSubclassOfClass:[WKWebView class]]) {
+		return NSClassFromString(_webViewClassName);
+	}
+	return [WKWebView class];
+#else
+	if (_webViewClassName && [NSClassFromString(_webViewClassName) isSubclassOfClass:[UIWebView class]]) {
+		return NSClassFromString(_webViewClassName);
+	}
+	return [UIWebView class];
+#endif
+}
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (WKWebView *)webView {
     if (_webView) return _webView;
@@ -609,7 +622,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         }
         
     }
-    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    _webView = [[[self webViewClass] alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
     _webView.backgroundColor = [UIColor clearColor];
     _webView.scrollView.backgroundColor = [UIColor clearColor];
@@ -643,7 +656,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #else
 - (UIWebView*)webView {
     if (_webView) return _webView;
-    _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    _webView = [[[self webViewClass] alloc] initWithFrame:self.view.bounds];
     _webView.backgroundColor = [UIColor clearColor];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
