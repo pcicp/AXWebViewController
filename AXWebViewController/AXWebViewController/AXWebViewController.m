@@ -344,7 +344,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [self loadURL:_URL];
     } else if (/*_baseURL && */_HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
-    } else {
+    } else if (!_delegate || ![_delegate respondsToSelector:@selector(overridesLoadFailUrlWithError:)] || ![_delegate overridesLoadFailUrlWithError:nil]) {
         // Handle none resource case.
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     }
@@ -1065,10 +1065,12 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (void)didFailLoadWithError:(NSError *)error{
     // #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    if (!_delegate || ![_delegate respondsToSelector:@selector(overridesLoadFailUrlWithError:)] || ![_delegate overridesLoadFailUrlWithError:error]) {
     if (error.code == NSURLErrorCannotFindHost) {// 404
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     } else {
         [self loadURL:[NSURL fileURLWithPath:kAXNetworkErrorHTMLPath]];
+    }
     }
     // #endif
     _backgroundLabel.text = [NSString stringWithFormat:@"%@%@",AXWebViewControllerLocalizedString(@"load failed:", nil) , error.localizedDescription];
