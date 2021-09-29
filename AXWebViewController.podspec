@@ -83,7 +83,7 @@ s.platform     = :ios, "7.0"
 #  Supports git, hg, bzr, svn and HTTP.
 #
 
-s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git", :tag => s.version }
+s.source       = { :git => "https://github.com/pcicp/AXWebViewController.git", :branch => 'pcicp-patch-1' }
 
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
