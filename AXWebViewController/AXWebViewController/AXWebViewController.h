@@ -109,6 +109,10 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 /// allows to override default implement for load fail url
 - (BOOL)overridesLoadFailUrlWithError:(NSError *)error;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+/// decide policy for navigation action after default implement
+- (WKNavigationActionPolicy)decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction;
+#endif
 @end
 
 AX_WEB_VIEW_CONTROLLER_AVAILABLITY;
