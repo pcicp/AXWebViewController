@@ -504,7 +504,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    @try{ [_webView removeObserver:self forKeyPath:@"estimatedProgress"]; } @catch(id e) {}
     [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
     [_webView removeObserver:self forKeyPath:@"title"];
     // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
