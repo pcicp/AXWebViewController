@@ -107,6 +107,8 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @param error a failed loading error.
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
+/// allows to override default implement for load fail url
+- (BOOL)overridesLoadFailUrlWithError:(NSError *)error;
 @end
 
 AX_WEB_VIEW_CONTROLLER_AVAILABLITY;
