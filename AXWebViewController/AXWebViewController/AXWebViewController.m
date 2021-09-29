@@ -1382,11 +1382,6 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         return;
     }
     
-    // URL actions for 404 and Errors:
-    if ([[NSPredicate predicateWithFormat:@"SELF ENDSWITH[cd] %@ OR SELF ENDSWITH[cd] %@", kAX404NotFoundURLKey, kAXNetworkErrorURLKey] evaluateWithObject:components.URL.absoluteString]) {
-        // Reload the original URL.
-        [self loadURL:_URL];
-    }
     // Update the items.
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
@@ -1394,8 +1389,19 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
+    // URL actions for 404 and Errors:
+    if ([[NSPredicate predicateWithFormat:@"SELF ENDSWITH[cd] %@ OR SELF ENDSWITH[cd] %@", kAX404NotFoundURLKey, kAXNetworkErrorURLKey] evaluateWithObject:components.URL.absoluteString]) {
+        // Reload the original URL.
+        [self loadURL:_URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    WKNavigationActionPolicy decidePolicy = WKNavigationActionPolicyAllow;
+    if (_delegate && [_delegate respondsToSelector:@selector(decidePolicyForNavigationAction:)]) {
+        decidePolicy = [_delegate decidePolicyForNavigationAction:navigationAction];
+    }
     // Call the decision handler to allow to load web page.
-    decisionHandler(WKNavigationActionPolicyAllow);
+    decisionHandler(decidePolicy);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
