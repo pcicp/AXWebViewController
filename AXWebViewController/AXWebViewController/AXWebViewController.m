@@ -1849,11 +1849,9 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 - (void)updateNavigationItems {
     [self.navigationItem setLeftBarButtonItems:nil animated:NO];
     if (self.webView.canGoBack/* || self.webView.backForwardList.backItem*/) {// Web view can go back means a lot requests exist.
-        UIBarButtonItem *spaceButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        spaceButtonItem.width = -6.5;
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         if (self.navigationController.viewControllers.count == 1) {
-            NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:@[spaceButtonItem,self.navigationBackBarButtonItem]];
+            NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:@[self.navigationBackBarButtonItem]];
             // If the top view controller of the navigation controller is current vc, the close item is ignored.
             if (self.showsNavigationCloseBarButtonItem && self.navigationController.topViewController != self){
                 [leftBarButtonItems addObject:self.navigationCloseBarButtonItem];
@@ -1864,7 +1862,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             if (self.showsNavigationCloseBarButtonItem){
                 [self.navigationItem setLeftBarButtonItems:@[self.navigationCloseBarButtonItem] animated:NO];
             }else{
-                [self.navigationItem setLeftBarButtonItems:@[] animated:NO];
+                [self.navigationItem setLeftBarButtonItems:nil animated:NO];
             }
         }
     } else {
