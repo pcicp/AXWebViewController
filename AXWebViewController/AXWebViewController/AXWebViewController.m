@@ -344,7 +344,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [self loadURL:_URL];
     } else if (/*_baseURL && */_HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
-    } else if (!_delegate || ![_delegate respondsToSelector:@selector(overridesLoadFailUrlWithError:)] || ![_delegate overridesLoadFailUrlWithError:nil]) {
+    } else if (!_delegate || ![_delegate respondsToSelector:@selector(webViewController:overridesLoadFailUrlWithError:)] || ![_delegate webViewController:self overridesLoadFailUrlWithError:nil]) {
         // Handle none resource case.
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     }
@@ -1065,7 +1065,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (void)didFailLoadWithError:(NSError *)error{
     // #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    if (!_delegate || ![_delegate respondsToSelector:@selector(overridesLoadFailUrlWithError:)] || ![_delegate overridesLoadFailUrlWithError:error]) {
+    if (!_delegate || ![_delegate respondsToSelector:@selector(webViewController:overridesLoadFailUrlWithError:)] || ![_delegate webViewController:self overridesLoadFailUrlWithError:error]) {
     if (error.code == NSURLErrorCannotFindHost) {// 404
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     } else {
@@ -1397,8 +1397,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         return;
     }
     WKNavigationActionPolicy decidePolicy = WKNavigationActionPolicyAllow;
-    if (_delegate && [_delegate respondsToSelector:@selector(decidePolicyForNavigationAction:)]) {
-        decidePolicy = [_delegate decidePolicyForNavigationAction:navigationAction];
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewController:decidePolicyForNavigationAction:)]) {
+        decidePolicy = [_delegate webViewController:self decidePolicyForNavigationAction:navigationAction];
     }
     // Call the decision handler to allow to load web page.
     decisionHandler(decidePolicy);
