@@ -1816,6 +1816,10 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView][bottomLayoutGuide]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
 #endif
     
+    [self setupProgressView];
+}
+
+- (void)setupProgressView {
     self.progressView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 2);
     [self.view addSubview:self.progressView];
     [self.view bringSubviewToFront:self.progressView];
