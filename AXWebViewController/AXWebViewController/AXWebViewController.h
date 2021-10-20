@@ -176,6 +176,8 @@ API_AVAILABLE(ios(7.0))
 @property(readwrite, nonatomic) UIBarButtonItem *navigationCloseItem;
 /// Prefers host as alert title.
 @property(assign, nonatomic) BOOL prefersHostAsAlertTitle;
+/// Custom localization bundle. Default is resource bundle.
+@property(strong, nonatomic) NSBundle *localizationBundle;
 /// Get a instance of `AXWebViewController` by a url string.
 ///
 /// @param urlString a string of url to be loaded.

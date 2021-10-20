@@ -32,7 +32,7 @@
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
-NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.resourceBundle, comment)
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.localizationBundle, comment)
 #endif
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 
@@ -665,6 +665,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     return _webView;
 }
 #endif
+
+- (NSBundle *)localizationBundle {
+    if (_localizationBundle) return _localizationBundle;
+    return self.resourceBundle;
+}
 
 - (NSBundle *)resourceBundle{
     if (_resourceBundle) return _resourceBundle;
