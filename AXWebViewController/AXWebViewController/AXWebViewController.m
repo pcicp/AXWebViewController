@@ -55,8 +55,6 @@ typedef struct {
     NSString *_HTMLString;
     NSURL *_baseURL;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    WKWebViewConfiguration *_configuration;
-    
     WKWebViewDidReceiveAuthenticationChallengeHandler _challengeHandler;
     AXSecurityPolicy *_securityPolicy;
 #endif

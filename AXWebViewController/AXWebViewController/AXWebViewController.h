@@ -126,6 +126,7 @@ API_AVAILABLE(ios(8.0))
     WKWebView *_webView;
     NSURL *_URL;
     NSString *_webViewClassName;
+    WKWebViewConfiguration *_configuration;
 }
 #else
 API_AVAILABLE(ios(7.0))
