@@ -1418,9 +1418,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(null_unspecified WKNavigation *)navigation {}
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    if (error.code == NSURLErrorCancelled) {
-        // [webView reloadFromOrigin];
-        return;
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+      return;
+    }
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && (error.code == 102 || error.code == 101)) {
+      return;
     }
     [self didFailLoadWithError:error];
 }
@@ -1431,9 +1433,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     [self didFinishLoad];
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    if (error.code == NSURLErrorCancelled) {
-        // [webView reloadFromOrigin];
-        return;
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+      return;
+    }
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && (error.code == 102 || error.code == 101)) {
+      return;
     }
     // id _request = [navigation valueForKeyPath:@"_request"];
     [self didFailLoadWithError:error];
@@ -1596,8 +1600,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (error.code == NSURLErrorCancelled) {
-        [webView reload]; return;
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+      return;
+    }
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && (error.code == 102 || error.code == 101)) {
+      return;
     }
     [self didFailLoadWithError:error];
 }
